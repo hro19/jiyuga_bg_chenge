@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head prefix="og: http://ogp.me/ns#">
+	<meta charset="utf-8">
+	<script src="./js/viewport.js"></script>
+	<link rel="stylesheet" href="./css/common.css">
+	<script src="./js/vue.js"></script>
+	<title>バックグラウンドチェンジ</title>
+</head>
+<style>
+	.bg_jiyu {
+		position: relative;
+		z-index: 1;
+	}
+
+	.bg_jiyu [class^=cov] {
+		/* display: none; */
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: -2;
+		background-size: cover;
+	}
+
+	.bg_jiyu i.cov_always {
+		background-image: url(images/jiyubg00.jpg);
+	}
+
+	/* .bg_jiyu [class^=cov] {
+		display: none;
+	} */
+
+	.bg_jiyu i.cov1 {
+		background-image: url(images/jiyubg01.jpg);
+	}
+
+	.bg_jiyu i.cov2 {
+		background-image: url(images/jiyubg02.jpg);
+	}
+
+	.bg_jiyu i.cov3 {
+		background-image: url(images/jiyubg03.jpg);
+	}
+
+	.bt_area {
+		position: static;
+		z-index: 10;
+		height: 500px;
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+		padding-bottom: 40px;
+	}
+
+	.bt_area li a {
+		border: 3px solid #fff;
+		color: #fff;
+		font-size: 3.0rem;
+		font-weight: bold;
+		padding: 20px 30px;
+		transition: 0.4s;
+	}
+
+	@media screen and (max-width: 640px) {
+		.bt_area {
+			flex-direction: column;
+			justify-content: flex-end;
+			align-items: center;
+		}
+
+		.bt_area li {
+			width: 100%;
+		}
+
+		.bt_area li a {
+			display: block;
+			padding: 10px 15px;
+			margin-bottom: 10px;
+			font-size: 1.4rem;
+			text-align: center;
+		}
+	}
+
+	.bt_area li a:hover {
+		background-color: rgba(251, 251, 251, 0.7);
+	}
+
+	/*transition設定*/
+	.fade-enter-active,
+	.fade-leave-active {
+		transition: all 0.5s ease;
+	}
+
+	/* 表示される時は0から1へ*/
+	.fade-enter {
+		opacity: 0;
+	}
+
+	.fade-enter-to {
+		opacity: 1;
+	}
+
+	/* 消える時は1から0へ*/
+	.fade-leave {
+		opacity: 1;
+	}
+
+	.fade-leave-to {
+		opacity: 0;
+	}
+</style>
+
+<body>
+
+	<div class="main-continer">
+
+		<!-- # ===================mainエリア_start================= # -->
+		<article class="main">
+			<div class="abs">コメントコメントコメントコメントコメント<br>コメントコメントコメントコメント<br>コメントコメントコメントコメント</div>
+			<div class="wrap bg_jiyu" id="jiyu_bg">
+				<div id="jiyu_area">
+					<div class="inner">
+						<ul class="bt_area">
+							<li v-for="i in 3">
+								<a @mouseover="bgChenge(i)" @mouseout="bgAlways" href="javascript:void(0)">ボタンその<span v-text="i"></span></a>
+							</li>
+						</ul>
+					</div>
+				</div><!-- / .news_area -->
+				<i class="cov_always"></i>
+				<transition name="fade" mode="out-in">
+					<i v-for="i in 3" v-if="currentCheck(i)" :class="'cov'+i" :key="i"></i>
+				</transition>
+			</div><!-- / .wrap -->
+			<!-- # ===spニュースエリア_end=== # -->
+		</article>
+		<!-- / #main -->
+		<!-- # ===================mainエリア_end================= # -->
+	</div>
+	<!-- / .main-continer -->
+	<!-- # ===================footerエリア_start================= # -->
+	<!-- # ===================footerエリア_end================= # -->
+	<script src="./js/jquery-2.2.4.min.js"></script>
+	<script src="//cdn.jsdelivr.net/velocity/1.2.2/velocity.min.js"></script>
+	<!-- # ===== フロントページ特有js start ===== # -->
+	<script>
+		let jiyu_bg = new Vue({
+			el: '#jiyu_bg',
+			data: function () {
+				return {
+					msg: '',
+					currentBg: null
+				}
+			},
+			methods: {
+				bgChenge: function (name) {
+					this.currentBg = name;
+					//console.log(event.target.attributes.value.value);
+				},
+				bgAlways: function () {
+					this.currentBg = null;
+				},
+				currentCheck: function (name) {
+					return this.currentBg === name;
+				}
+			}
+		})
+	</script>
+	<!-- # ===== フロントページ特有js end ===== # -->
+</body>
+
+</html>
